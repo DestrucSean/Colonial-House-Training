@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="ColonialHouse_ShiftAtTheHouse_101" version="1.0"
+          xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+                              http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+  </metadata>
+  <organizations default="ORG_COLONIAL_HOUSE">
+    <organization identifier="ORG_COLONIAL_HOUSE">
+      <title>A Shift at the House - Trauma &amp; Mental Health 101</title>
+      <item identifier="ITEM_SHIFT_GAME" identifierref="RES_SHIFT_GAME" isvisible="true">
+        <title>A Shift at the House (Interactive Mini-Game)</title>
+        <adlcp:masteryscore>70</adlcp:masteryscore>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="RES_SHIFT_GAME" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="index.html" />
+      <file href="Build/WebGL_SCORM12.data.unityweb" />
+      <file href="Build/WebGL_SCORM12.framework.js.unityweb" />
+      <file href="Build/WebGL_SCORM12.loader.js" />
+      <file href="Build/WebGL_SCORM12.wasm.unityweb" />
+    </resource>
+  </resources>
+</manifest>

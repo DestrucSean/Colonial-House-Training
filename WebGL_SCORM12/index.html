@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>A Shift at the House</title>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #111a24;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: #f2f5f8;
+      }
+      #unity-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #unity-canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        background: #111a24;
+      }
+      #loading-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #111a24;
+        z-index: 10;
+        transition: opacity 0.25s ease;
+      }
+      #loading-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        letter-spacing: 0.3px;
+      }
+      #loading-sub {
+        font-size: 14px;
+        color: #a9b9c9;
+        margin-bottom: 18px;
+      }
+      #progress-track {
+        width: 280px;
+        height: 10px;
+        border-radius: 999px;
+        background: #1b2736;
+        overflow: hidden;
+        border: 1px solid #2b3f56;
+      }
+      #progress-fill {
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, #2e9bb0, #4fb286);
+        transition: width 0.15s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="unity-container">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      <div id="loading-overlay">
+        <div id="loading-title">A Shift at the House</div>
+        <div id="loading-sub">Colonial House Staff Training  •  Loading module...</div>
+        <div id="progress-track">
+          <div id="progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="Build/WebGL_SCORM12.loader.js"></script>
+    <script>
+      (function () {
+        var canvas = document.querySelector("#unity-canvas");
+        var overlay = document.querySelector("#loading-overlay");
+        var fill = document.querySelector("#progress-fill");
+
+        function safeScormCleanup() {
+          try {
+            if (window.__scorm12Api && window.__scorm12Initialized && !window.__scorm12Finished) {
+              window.__scorm12Api.LMSCommit("");
+              window.__scorm12Api.LMSFinish("");
+              window.__scorm12Finished = true;
+            }
+          } catch (e) {}
+        }
+
+        window.addEventListener("beforeunload", safeScormCleanup);
+        window.addEventListener("unload", safeScormCleanup);
+
+        createUnityInstance(canvas, {
+          arguments: [],
+          dataUrl: "Build/WebGL_SCORM12.data.unityweb",
+          frameworkUrl: "Build/WebGL_SCORM12.framework.js.unityweb",
+          codeUrl: "Build/WebGL_SCORM12.wasm.unityweb",
+          streamingAssetsUrl: "StreamingAssets",
+          companyName: "Colonial House, Inc.",
+          productName: "A Shift at the House",
+          productVersion: "0.1.0",
+        }, function (progress) {
+          fill.style.width = Math.round(progress * 100) + "%";
+        }).then(function () {
+          overlay.style.opacity = "0";
+          setTimeout(function () {
+            overlay.style.display = "none";
+          }, 260);
+        }).catch(function (message) {
+          document.querySelector("#loading-sub").textContent = "Unable to load module: " + message;
+        });
+      })();
+    </script>
+  </body>
+</html>
